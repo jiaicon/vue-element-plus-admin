@@ -218,6 +218,7 @@ export default defineComponent({
     // 注册
     onMounted(() => {
       const tableRef = unref(elTableRef)
+      // eslint-disable-next-line vue/no-ref-as-operand
       emit('register', tableRef?.$parent, elTableRef)
     })
 
@@ -237,6 +238,7 @@ export default defineComponent({
     })
 
     const setProps = (props: TableProps = {}) => {
+      // @ts-ignore
       mergeProps.value = Object.assign(unref(mergeProps), props)
       outsideProps.value = { ...props } as any
     }
@@ -356,8 +358,7 @@ export default defineComponent({
         const slots = {
           default: (...args: any[]) => {
             const data = args[0]
-            let isPreview = false
-            isPreview =
+            const isPreview =
               imagePreview.some((item) => (item as string) === v.field) ||
               videoPreview.some((item) => (item as string) === v.field)
 
@@ -471,8 +472,7 @@ export default defineComponent({
             default: (...args: any[]) => {
               const data = args[0]
 
-              let isPreview = false
-              isPreview =
+              const isPreview =
                 imagePreview.some((item) => (item as string) === v.field) ||
                 videoPreview.some((item) => (item as string) === v.field)
 

@@ -7,6 +7,8 @@ declare global {
 
   declare type Nullable<T> = T | null
 
+  declare type Arrayable<T> = T | T[]
+
   declare type ElRef<T extends HTMLElement = HTMLDivElement> = Nullable<T>
 
   declare type Recordable<T = any, K = string> = Record<K extends null | undefined ? string : K, T>
@@ -27,10 +29,7 @@ declare global {
   declare type LayoutType = 'classic' | 'topLeft' | 'top' | 'cutMenu'
 
   declare type AxiosContentType =
-    | 'application/json'
-    | 'application/x-www-form-urlencoded'
-    | 'multipart/form-data'
-    | 'text/plain'
+    'application/json' | 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain'
 
   declare type AxiosMethod = 'get' | 'post' | 'delete' | 'put'
 

@@ -12,7 +12,7 @@ const { start, done } = useNProgress()
 
 const { loadStart, loadDone } = usePageLoading()
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
   start()
   loadStart()
   const permissionStore = usePermissionStoreWithOut()
@@ -20,11 +20,10 @@ router.beforeEach(async (to, from, next) => {
   const userStore = useUserStoreWithOut()
   if (userStore.getUserInfo) {
     if (to.path === '/login') {
-      next({ path: '/' })
+      return { path: '/' }
     } else {
       if (permissionStore.getIsAddRouters) {
-        next()
-        return
+        return true
       }
 
       // 开发者可根据实际情况进行修改
@@ -46,13 +45,13 @@ router.beforeEach(async (to, from, next) => {
       const redirect = decodeURIComponent(redirectPath as string)
       const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect }
       permissionStore.setIsAddRouters(true)
-      next(nextData)
+      return nextData
     }
   } else {
     if (NO_REDIRECT_WHITE_LIST.indexOf(to.path) !== -1) {
-      next()
+      return true
     } else {
-      next(`/login?redirect=${to.path}`) // 否则全部重定向到登录页
+      return `/login?redirect=${to.path}` // 否则全部重定向到登录页
     }
   }
 })

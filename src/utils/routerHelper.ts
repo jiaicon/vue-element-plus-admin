@@ -162,14 +162,13 @@ const isMultipleRoute = (route: AppRouteRecordRaw) => {
 
 // 生成二级路由
 const promoteRouteLevel = (route: AppRouteRecordRaw) => {
-  let router: Router | null = createRouter({
+  const router: Router | null = createRouter({
     routes: [route as RouteRecordRaw],
     history: createWebHashHistory()
   })
 
   const routes = router.getRoutes()
   addToChildren(routes, route.children || [], route)
-  router = null
 
   route.children = route.children?.map((item) => omit(item, 'children'))
 }

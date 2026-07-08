@@ -17,7 +17,7 @@ import {
   DatePickerProps,
   FormItemProps as ElFormItemProps,
   FormProps as ElFormProps,
-  ISelectProps,
+  SelectProps,
   UploadProps
 } from 'element-plus'
 import { IEditorConfig } from '@wangeditor/editor'
@@ -127,7 +127,7 @@ export interface SelectOption {
   [key: string]: any
 }
 
-export interface SelectComponentProps extends Omit<Partial<ISelectProps>, 'options'> {
+export interface SelectComponentProps extends Omit<Partial<SelectProps>, 'options'> {
   /**
    * 数据源的字段别名
    */
@@ -522,8 +522,10 @@ export interface UploadComponentProps extends Partial<UploadProps> {
   style?: CSSProperties
 }
 
-export interface TreeSelectComponentProps
-  extends Omit<Partial<SelectComponentProps>, 'props' | 'on' | 'slots'> {
+export interface TreeSelectComponentProps extends Omit<
+  Partial<SelectComponentProps>,
+  'props' | 'on' | 'slots'
+> {
   data?: any[]
   emptyText?: string
   nodeKey?: string

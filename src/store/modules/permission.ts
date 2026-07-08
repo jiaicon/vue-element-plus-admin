@@ -42,7 +42,7 @@ export const usePermissionStore = defineStore('permission', {
       routers?: AppCustomRouteRecordRaw[] | string[]
     ): Promise<unknown> {
       return new Promise<void>((resolve) => {
-        let routerMap: AppRouteRecordRaw[] = []
+        let routerMap: AppRouteRecordRaw[]
         if (type === 'server') {
           // 模拟后端过滤菜单
           routerMap = generateRoutesByServer(routers as AppCustomRouteRecordRaw[])

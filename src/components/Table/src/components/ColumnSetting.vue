@@ -22,7 +22,9 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['confirm'])
+const emit = defineEmits<{
+  confirm: [columns: TableColumn[]]
+}>()
 
 const oldColumns = ref<TableColumn[]>()
 

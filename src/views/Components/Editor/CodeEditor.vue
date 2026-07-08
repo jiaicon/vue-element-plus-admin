@@ -9,8 +9,6 @@ const content = ref(
   'public class HelloWorld {\n  public static void main(String[] args) {\n    System.out.println("Hello, World!");\n  }\n}'
 )
 const { t } = useI18n()
-
-const MonacoEditRef = ref<InstanceType<typeof CodeEditor>>()
 </script>
 <template>
   <ContentWrap :title="t('richText.codeEditor')" :message="t('richText.codeEditorDes')">

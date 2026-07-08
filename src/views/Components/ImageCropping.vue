@@ -12,8 +12,6 @@ const getBase64 = () => {
   base64.value = unref(cropperExpose)?.cropperExpose?.getCroppedCanvas()?.toDataURL() ?? ''
 }
 
-const cropperExpose2 = ref<InstanceType<typeof ImageCropping>>()
-
 const base642 = ref('')
 
 const getBase642 = () => {

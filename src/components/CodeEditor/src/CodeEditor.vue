@@ -39,15 +39,8 @@ const monacoEditorStyle = computed(() => {
   }
 })
 
-const {
-  monacoEditorRef,
-  createEditor,
-  updateVal,
-  updateOptions,
-  getEditor,
-  changeLanguage,
-  changeTheme
-} = useMonacoEditor(props.language)
+const { createEditor, updateVal, updateOptions, getEditor, changeLanguage, changeTheme } =
+  useMonacoEditor(props.language)
 
 onMounted(() => {
   const monacoEditor = createEditor(props.editorOption)
