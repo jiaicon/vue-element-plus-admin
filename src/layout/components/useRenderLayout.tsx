@@ -2,6 +2,7 @@ import { computed } from 'vue'
 import { useAppStore } from '@/store/modules/app'
 import { Menu } from '@/components/Menu'
 import { TabMenu } from '@/components/TabMenu'
+import { TopMainMenu } from '@/components/TopMainMenu'
 import { TagsView } from '@/components/TagsView'
 import { Logo } from '@/components/Logo'
 import AppView from './AppView.vue'
@@ -297,10 +298,76 @@ export const useRenderLayout = () => {
     )
   }
 
+  const renderMain = () => {
+    return (
+      <>
+        {/* 顶部栏：Logo + 一级菜单（hover下拉二级）+ 工具栏 */}
+        <div class="flex items-center bg-[var(--top-header-bg-color)] relative layout-border__bottom dark:bg-[var(--el-bg-color)]">
+          {logo.value ? <Logo class="custom-hover"></Logo> : undefined}
+
+          <div class="flex-1 h-full">
+            <TopMainMenu></TopMainMenu>
+          </div>
+
+          <ToolHeader></ToolHeader>
+        </div>
+
+        {/* 下方：左侧二级菜单 + 右侧内容区 */}
+        <div class="absolute top-[var(--logo-height)+1px] left-0 w-full h-[calc(100%-1px-var(--logo-height))] flex">
+          <Menu class="!h-full relative layout-border__right"></Menu>
+
+          <div
+            class={[
+              `${prefixCls}-content`,
+              'h-[100%]',
+              {
+                'w-[calc(100%-var(--left-menu-min-width))] left-[var(--left-menu-min-width)]':
+                  collapse.value,
+                'w-[calc(100%-var(--left-menu-max-width))] left-[var(--left-menu-max-width)]':
+                  !collapse.value
+              }
+            ]}
+            style="transition: all var(--transition-time-02);"
+          >
+            <ElScrollbar
+              v-loading={pageLoading.value}
+              class={[
+                `${prefixCls}-content-scrollbar`,
+                {
+                  '!h-[calc(100%-var(--tags-view-height))] mt-[calc(var(--tags-view-height))]':
+                    fixedHeader.value && tagsView.value
+                }
+              ]}
+            >
+              {tagsView.value ? (
+                <TagsView
+                  class={[
+                    'layout-border__bottom absolute',
+                    {
+                      '!fixed top-0 left-0 z-10': fixedHeader.value,
+                      'w-[calc(100%-var(--left-menu-min-width))] !left-[var(--left-menu-min-width)] mt-[calc(var(--logo-height)+1px)]':
+                        collapse.value && fixedHeader.value,
+                      'w-[calc(100%-var(--left-menu-max-width))] !left-[var(--left-menu-max-width)] mt-[calc(var(--logo-height)+1px)]':
+                        !collapse.value && fixedHeader.value
+                    }
+                  ]}
+                  style="transition: width var(--transition-time-02), left var(--transition-time-02);"
+                ></TagsView>
+              ) : undefined}
+
+              <AppView></AppView>
+            </ElScrollbar>
+          </div>
+        </div>
+      </>
+    )
+  }
+
   return {
     renderClassic,
     renderTopLeft,
     renderTop,
-    renderCutMenu
+    renderCutMenu,
+    renderMain
   }
 }

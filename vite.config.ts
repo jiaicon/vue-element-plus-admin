@@ -140,7 +140,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       cssTarget: 'chrome90'
     },
     server: {
-      port: 4000,
+      port: 9527,
       proxy: {
         // 选项写法
         '/api': {

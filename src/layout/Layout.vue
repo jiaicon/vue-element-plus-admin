@@ -27,7 +27,7 @@ const handleClickOutside = () => {
 }
 
 const renderLayout = () => {
-  const { renderClassic, renderTopLeft, renderTop, renderCutMenu } = useRenderLayout()
+  const { renderClassic, renderTopLeft, renderTop, renderCutMenu, renderMain } = useRenderLayout()
   switch (unref(layout)) {
     case 'classic':
       return renderClassic()
@@ -37,6 +37,8 @@ const renderLayout = () => {
       return renderTop()
     case 'cutMenu':
       return renderCutMenu()
+    case 'main':
+      return renderMain()
     default:
       break
   }

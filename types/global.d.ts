@@ -26,7 +26,7 @@ declare global {
 
   declare type ElementPlusInfoType = 'success' | 'info' | 'warning' | 'danger'
 
-  declare type LayoutType = 'classic' | 'topLeft' | 'top' | 'cutMenu'
+  declare type LayoutType = 'classic' | 'topLeft' | 'top' | 'cutMenu' | 'main'
 
   declare type AxiosContentType =
     'application/json' | 'application/x-www-form-urlencoded' | 'multipart/form-data' | 'text/plain'

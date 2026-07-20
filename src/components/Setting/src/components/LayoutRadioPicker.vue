@@ -17,7 +17,7 @@ const layout = computed(() => appStore.getLayout)
     <div
       :class="[
         `${prefixCls}__classic`,
-        'relative w-56px h-48px cursor-pointer bg-gray-300',
+        'relative w-46px h-40px cursor-pointer bg-gray-300',
         {
           'is-acitve': layout === 'classic'
         }
@@ -27,7 +27,7 @@ const layout = computed(() => appStore.getLayout)
     <div
       :class="[
         `${prefixCls}__top-left`,
-        'relative w-56px h-48px cursor-pointer bg-gray-300',
+        'relative w-46px h-40px cursor-pointer bg-gray-300',
         {
           'is-acitve': layout === 'topLeft'
         }
@@ -37,7 +37,7 @@ const layout = computed(() => appStore.getLayout)
     <div
       :class="[
         `${prefixCls}__top`,
-        'relative w-56px h-48px cursor-pointer bg-gray-300',
+        'relative w-46px h-40px cursor-pointer bg-gray-300',
         {
           'is-acitve': layout === 'top'
         }
@@ -47,7 +47,7 @@ const layout = computed(() => appStore.getLayout)
     <div
       :class="[
         `${prefixCls}__cut-menu`,
-        'relative w-56px h-48px cursor-pointer bg-gray-300',
+        'relative w-46px h-40px cursor-pointer bg-gray-300',
         {
           'is-acitve': layout === 'cutMenu'
         }
@@ -56,6 +56,16 @@ const layout = computed(() => appStore.getLayout)
     >
       <div class="absolute h-full w-[33%] top-0 left-[10%] bg-gray-200"></div>
     </div>
+    <div
+      :class="[
+        `${prefixCls}__main`,
+        'relative w-46px h-40px cursor-pointer bg-gray-300',
+        {
+          'is-acitve': layout === 'main'
+        }
+      ]"
+      @click="appStore.setLayout('main')"
+    ></div>
   </div>
 </template>
 
@@ -160,6 +170,34 @@ const layout = computed(() => appStore.getLayout)
       height: 100%;
       background-color: #fff;
       border-radius: 4px 0 0 4px;
+      content: '';
+    }
+  }
+
+  &__main {
+    border: 2px solid #e5e7eb;
+    border-radius: 4px;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 38%;
+      background-color: #273352;
+      border-radius: 4px 4px 0 0;
+      content: '';
+    }
+
+    &::after {
+      position: absolute;
+      top: 38%;
+      left: 0;
+      width: 33%;
+      height: 62%;
+      background-color: #fff;
+      border-radius: 0 0 0 4px;
       content: '';
     }
   }

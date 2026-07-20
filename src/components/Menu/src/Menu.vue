@@ -31,7 +31,7 @@ export default defineComponent({
 
     const menuMode = computed((): 'vertical' | 'horizontal' => {
       // 竖
-      const vertical: LayoutType[] = ['classic', 'topLeft', 'cutMenu']
+      const vertical: LayoutType[] = ['classic', 'topLeft', 'cutMenu', 'main']
 
       if (vertical.includes(unref(layout))) {
         return 'vertical'
@@ -40,9 +40,44 @@ export default defineComponent({
       }
     })
 
-    const routers = computed(() =>
-      unref(layout) === 'cutMenu' ? permissionStore.getMenuTabRouters : permissionStore.getRouters
-    )
+    const routers = computed(() => {
+      if (unref(layout) === 'cutMenu') {
+        return permissionStore.getMenuTabRouters
+      }
+      if (unref(layout) === 'main') {
+        // main布局：左侧只显示当前激活一级菜单的二级子路由
+        // 与 renderTop 一致，使用 getRouters（constantRouterMap 中全是 hidden，过滤后即动态路由）
+        const allRouters = permissionStore.getRouters as AppRouteRecordRaw[]
+        const currentPath = ((unref(currentRoute)?.meta?.activeMenu as string) ||
+          unref(currentRoute)?.path ||
+          '') as string
+
+        for (const route of allRouters) {
+          if (!route.meta?.hidden && currentPath.startsWith(route.path as string)) {
+            return (route.children || []).filter((v) => !v.meta?.hidden)
+          }
+        }
+        return []
+      }
+      return permissionStore.getRouters
+    })
+
+    // main布局下，左侧菜单需要用一级路由路径作为 parentPath 来正确拼接二级路由的完整路径
+    const parentMenuPath = computed(() => {
+      if (unref(layout) !== 'main') return '/'
+
+      const allRouters = permissionStore.getRouters as AppRouteRecordRaw[]
+      const currentPath = ((unref(currentRoute)?.meta?.activeMenu as string) ||
+        unref(currentRoute)?.path ||
+        '') as string
+
+      for (const route of allRouters) {
+        if (!route.meta?.hidden && currentPath.startsWith(route.path as string)) {
+          return route.path as string
+        }
+      }
+      return '/'
+    })
 
     const collapse = computed(() => appStore.getCollapse)
 
@@ -99,7 +134,7 @@ export default defineComponent({
           {{
             default: () => {
               const { renderMenuItem } = useRenderMenuItem(menuMode)
-              return renderMenuItem(unref(routers))
+              return renderMenuItem(unref(routers), unref(parentMenuPath))
             }
           }}
         </ElMenu>

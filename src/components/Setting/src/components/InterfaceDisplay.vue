@@ -135,7 +135,7 @@ const layout = computed(() => appStore.getLayout)
 watch(
   () => layout.value,
   (n) => {
-    if (n === 'top') {
+    if (n === 'top' || n === 'main') {
       appStore.setCollapse(false)
     }
   }
