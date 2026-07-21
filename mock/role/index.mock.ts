@@ -85,6 +85,7 @@ const adminList = [
       {
         path: 'form',
         component: '##',
+        redirect: '/components/form/default-form',
         name: 'Form',
         meta: {
           title: 'router.form',

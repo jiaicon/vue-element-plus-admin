@@ -105,17 +105,21 @@ export const generateRoutesByServer = (routes: AppCustomRouteRecordRaw[]): AppRo
     if (route.component) {
       const comModule = modules[`../${route.component}.vue`] || modules[`../${route.component}.tsx`]
       const component = route.component as string
-      if (!comModule && !component.includes('#')) {
+      if (!comModule && !component.includes('Layout')) {
         console.error(`未找到${route.component}.vue文件或${route.component}.tsx文件，请创建`)
       } else {
         // 动态加载路由文件，可根据实际情况进行自定义逻辑
         data.component =
-          component === '#' ? Layout : component.includes('##') ? getParentLayout() : comModule
+          component === 'Layout' ? Layout : component.includes('##') ? getParentLayout() : comModule
       }
     }
     // recursive child routes
     if (route.children) {
       data.children = generateRoutesByServer(route.children)
+    }
+    // create redirect
+    if (!route.redirect && data.children?.length) {
+      data.redirect = getFirstLeafPath(data.children, data.path)
     }
     res.push(data as AppRouteRecordRaw)
   }
@@ -126,6 +130,27 @@ export const pathResolve = (parentPath: string, path: string) => {
   if (isUrl(path)) return path
   const childPath = path.startsWith('/') || !path ? path : `/${path}`
   return `${parentPath}${childPath}`.replace(/\/\//g, '/').trim()
+}
+
+// 获取第一个可访问的子菜单
+const getFirstLeafPath = (routes: AppRouteRecordRaw[], parentPath = ''): string | undefined => {
+  for (const item of routes) {
+    if (item.meta?.hidden) continue
+
+    const currentPath = pathResolve(parentPath, item.path)
+
+    if (item.children?.length) {
+      const child = getFirstLeafPath(item.children, currentPath)
+
+      if (child) {
+        return child
+      }
+    } else {
+      return currentPath
+    }
+  }
+
+  return undefined
 }
 
 // 路由降级

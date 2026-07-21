@@ -312,6 +312,7 @@ export const useAppStore = defineStore('app', {
       setCssVar('--top-header-bg-color', color)
       setCssVar('--top-header-text-color', textColor)
       setCssVar('--top-header-hover-color', textHoverColor)
+      setCssVar('--top-tool-border-color', topToolBorderColor)
       this.setTheme({
         topHeaderBgColor: color,
         topHeaderTextColor: textColor,
